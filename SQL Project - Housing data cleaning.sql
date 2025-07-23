@@ -34,12 +34,9 @@ select *
 from duplicate_cte
 where row_num > 1;
 
-#check 结果是否正确
 select*
 from layoffs_staging
 where company='Casper';
-
-#delete
 
 with duplicate_cte as
 (
@@ -92,7 +89,6 @@ select distinct industry
 from layoffs_staging2
 order by 1;
 
--- 看到industry column 里内容很多重复的还有空白的
 
 select *
 from layoffs_staging2
@@ -105,12 +101,11 @@ where industry like  'Crypto%';
 select distinct industry
 from layoffs_staging2;
 
--- 检查 location
 select distinct location
 from layoffs_staging2
 order By 1;
 
--- 检查country, 发现有重复
+
 select distinct country
 from layoffs_staging2
 order By 1;
@@ -137,12 +132,11 @@ SET `date` = NULL
 WHERE `date` = 'None';
 
 update layoffs_staging2
-set `date` = str_to_date(`date`,'%m/%d/%Y'); -- 年月日的大小写格式也很重要，可能会报错
+set `date` = str_to_date(`date`,'%m/%d/%Y'); 
 
 alter table layoffs_staging2
 modify column`date` date;
 
--- 如何处理 null 或者blank的内容
 
 SELECT industry
 FROM layoffs_staging2;
@@ -203,7 +197,6 @@ from layoffs_staging2
 where total_laid_off is null
 and percentage_laid_off is null;
 
--- 删column
 alter table layoffs_staging2
 drop column row_num;
 
